@@ -29,6 +29,7 @@ from typing import Any, Dict, List, Optional
 
 import requests
 import streamlit as st
+from streamlit_back_camera_input import back_camera_input
 
 # -----------------------------------------------------------
 # 環境変数から設定値を読み込む
@@ -73,14 +74,10 @@ st.set_page_config(
 # -----------------------------------------------------------
 _CSS = """\
 <style>
-@import url(
-  'https://fonts.googleapis.com/css2?'
-  'family=Noto+Sans+JP:wght@400;500;700&'
-  'display=swap'
-);
 html, body, [class*="css"] {
-  font-family: 'Noto Sans JP',
-    'Yu Gothic','YuGothic',Arial,sans-serif;
+  font-family: 'Yu Gothic','YuGothic',
+    'Hiragino Kaku Gothic ProN','Meiryo',
+    sans-serif;
   color: #1a1a1a;
 }
 .main .block-container { padding-top: 1.5rem; }
@@ -864,12 +861,9 @@ with left:
             ] = "camera"
             st.rerun()
     elif cam == "camera":
-        photo = st.camera_input(
-            "撮影ボタンを押してください",
-            help=(
-                "カメラで現場の状況を"
-                "撮影してください。"
-            ),
+        # 背面カメラをデフォルトで起動
+        photo = back_camera_input(
+            key="rear_cam",
         )
         if photo is not None:
             st.session_state[
